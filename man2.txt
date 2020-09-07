@@ -1,0 +1,60 @@
+Apache mavenからzipをダウンロード
+https://maven.apache.org/download.cgi
+
+C:\sftpに解凍
+
+以下を書き換える、フォルダも作っておく
+C:\sftp\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf\settings.xml
+＞  <localRepository>C:/sftp/repository\</localRepository>
+
+DOSを開いて
+>cd C:\sftp
+
+PATHを通して
+>set PATH=%PATH%;C:\sftp\apache-maven-3.6.3-bin\apache-maven-3.6.3\bin
+
+以下のコマンドを実行
+>mvn archetype:generate -DgroupId=com.ecm.test -DartifactId=sft-ptest -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+POMにdependency部分を追加
+https://qiita.com/nenokido2000/items/a00348c9f6a0f942773b
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.53</version>
+    </dependency>
+
+POMにpropertiesを追加
+https://normalian.hatenablog.com/entry/2015/05/23/180451
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+POMに実行可能jarにするためのプラグインを追加
+https://www.codeflow.site/ja/article/maven__how-to-create-a-jar-file-with-maven
+4.依存関係を扱うのところの<build>～</build>を</dependencies>の後ろに追加
+mainClassをcom.ecm.test.SftpSampleに修正
+
+以下のファイルを書き換える
+C:\sftp\sft-ptest\src\main\java\com\ecm\test\App.java
+https://qiita.com/nenokido2000/items/a00348c9f6a0f942773b
+
+※パッケージ名はそのままにしておく
+package com.ecm.test;
+
+プロジェクトフォルダに移動して
+>cd C:\sftp\sft-ptest
+
+コンパイル
+>mvn package
+
+テスト
+>java -jar target/dateutils.jar
+
+
+
+// https://qiita.com/tarosa0001/items/e5667cfa857529900216
+// http://murayama.hatenablog.com/entry/2014/09/18/071831
+
+
